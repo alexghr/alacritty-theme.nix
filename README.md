@@ -9,38 +9,34 @@ Each YAML file in the [alacritty-theme/themes](https://github.com/alacritty/alac
 
 Furthermore an overlay is provided that groups all of these themes under a single attribute set: `pkgs.alacritty-theme`.
 
-## Using a theme
+## Apply a color scheme using home-manager
 
-Add this repo to your inputs:
+This sample config applies the overlay and configures `cyber_punk_neon` as the color scheme for Alacritty using home-manager.
+
+You can read more about installing overlays with Flakes [on NixOS Wiki](https://nixos.wiki/wiki/Flakes#Importing_packages_from_multiple_channels).
 
 ```nix
 # flake.nix
 {
   inputs.alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-}
-```
-
-Install the default overlay. This will make `pkgs.alacritty-theme` available:
-
-```nix
-{
-  nixpkgs.overlays = [ alacritty-theme.overlays.default ];
-}
-```
-
-Finally, import a theme in your alacritty config:
-
-```nix
-# using home-manager
-{
-  home-manager.users.you = hm: {
-    programs.alacritty = {
-      enable = true;
-      settings = {
-        import = [
-          pkgs.alacritty-theme.cyber_punk_neon
-        ];
-      };
+  outputs = { nixpkgs, alacritty-theme, ... }: {
+    nixosConfigurations.yourComputer =  nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ({ config, pkgs, ...}: {
+          # install the overlay
+          nixpkgs.overlays = [ alacritty-theme.overlays.default ];
+        })
+        ({ config, pkgs, ... }: {
+          home-manager.users.you = hm: {
+            programs.alacritty = {
+              enable = true;
+              # use a color scheme from the overlay
+              settings.import = [ pkgs.alacritty-theme.cyber_punk_neon ];
+            };
+          };
+        })
+      ];
     };
   };
 }
