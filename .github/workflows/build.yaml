@@ -7,21 +7,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     env:
-      ATTIC_VERSION: b1fb790
       ATTIC_URL: ${{ secrets.ATTIC_URL }}
       ATTIC_AUTH_TOKEN: ${{ secrets.ATTIC_AUTH_TOKEN }}
       ATTIC_CACHE: ${{ secrets.ATTIC_CACHE }}
+      ATTIC_FLAKE: github:zhaofengli/attic/b1fb790
+      NIXPKGS_FLAKE: github:NixOS/nixpkgs/0eeebd6
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v21
       with:
-        nix_path: nixpkgs=channel:nixos-unstable
         extra_nix_config: |
           extra-substituters = ${{ secrets.ATTIC_URL }}/${{ secrets.ATTIC_CACHE }}
           extra-trusted-public-keys = ${{ secrets.ATTIC_CACHE }}:${{ secrets.ATTIC_CACHE_PUBLIC_KEY }}
 
     - name: Build & cache
       run: |
-        nix shell nixpkgs#bash nixpkgs#jq github:zhaofengli/attic/$ATTIC_VERSION --command "./scripts/attic.bash"
+        nix shell $NIXPKGS_FLAKE#bash $NIXPKGS_FLAKE#jq $ATTIC_FLAKE --command "./scripts/attic.bash"
