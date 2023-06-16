@@ -43,3 +43,35 @@ You can read more about installing overlays with Flakes [on NixOS Wiki](https://
 ```
 
 That's it :smile:
+
+## Binary Cache
+
+I maintain a personal binary cache running [Attic](https://github.com/zhaofengli/attic) and push outputs to it. To use it and its public key to your `configuration.nix`:
+
+```nix
+# configuration.nix
+{
+  nix.settings = {
+    extra-substituters = [
+      "https://attic.alexghr.me/public"
+    ];
+    extra-trusted-public-keys = [
+      "public:5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo="
+    ];
+    # only if your user is not trusted already
+    extra-trusted-users = [
+      "<your username>"
+    ];
+  };
+}
+```
+
+Or to your `nix.conf` if you're not running NixOS:
+
+```nix
+# nix.conf
+{
+  extra-substituters = https://attic.alexghr.me/public
+  extra-trusted-public-keys = public:5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo=
+}
+```

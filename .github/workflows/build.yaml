@@ -9,9 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ATTIC_URL: ${{ secrets.ATTIC_URL }}
+      ATTIC_URL: https://attic.alexghr.me
       ATTIC_AUTH_TOKEN: ${{ secrets.ATTIC_AUTH_TOKEN }}
-      ATTIC_CACHE: ${{ secrets.ATTIC_CACHE }}
+      ATTIC_CACHE: public
+      ATTIC_CACHE_PUBLIC_KEY: 5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo=
+      # pin attic and nixpkgs
       ATTIC_FLAKE: github:zhaofengli/attic/b1fb790
       NIXPKGS_FLAKE: github:NixOS/nixpkgs/0eeebd6
     steps:
@@ -19,8 +21,8 @@ jobs:
     - uses: cachix/install-nix-action@v21
       with:
         extra_nix_config: |
-          extra-substituters = ${{ secrets.ATTIC_URL }}/${{ secrets.ATTIC_CACHE }}
-          extra-trusted-public-keys = ${{ secrets.ATTIC_CACHE }}:${{ secrets.ATTIC_CACHE_PUBLIC_KEY }}
+          extra-substituters = ${{ env.ATTIC_URL }}/${{ env.ATTIC_CACHE }}
+          extra-trusted-public-keys = ${{ env.ATTIC_CACHE }}:${{ env.ATTIC_CACHE_PUBLIC_KEY }}
 
     - name: Build & cache
       run: |
