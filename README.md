@@ -68,10 +68,8 @@ I maintain a personal binary cache running [Attic](https://github.com/zhaofengli
 
 Or to your `nix.conf` if you're not running NixOS:
 
-```nix
+```conf
 # nix.conf
-{
-  extra-substituters = ["https://attic.alexghr.me/public"];
-  extra-trusted-public-keys = ["public:5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo="];
-}
+extra-substituters = https://attic.alexghr.me/public
+extra-trusted-public-keys = public:5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo=
 ```
