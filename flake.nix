@@ -32,7 +32,9 @@
               inherit name;
               phases = [ "installPhase" ];
               installPhase = ''
+                runHook preInstall
                 cp ${alacritty-theme}/themes/${file} $out
+                runHook postInstall
               '';
             };
           }) themeFiles;
