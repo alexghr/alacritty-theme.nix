@@ -12,7 +12,7 @@
 
   outputs = inputs@{ self, flake-parts, alacritty-theme, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [];
+      imports = [ ];
       flake = {
         overlays.alacritty-theme = final: prev: {
           alacritty-theme = self.packages.${prev.system};
@@ -20,26 +20,31 @@
         overlays.default = self.overlays.alacritty-theme;
       };
       systems = [ "x86_64-linux" "aarch64-darwin" ];
-      perSystem = {  pkgs, ... }:
+      perSystem = { lib, pkgs, ... }:
         let
-          isYaml = file: pkgs.lib.hasSuffix ".yaml" file || pkgs.lib.hasSuffix ".yml" file;
-          withoutYamlExtension = file: pkgs.lib.removeSuffix ".yml" (pkgs.lib.removeSuffix ".yaml" file);
-          dirEntries = builtins.attrNames (builtins.readDir "${alacritty-theme}/themes");
-          themeFiles = builtins.filter isYaml dirEntries;
-          themeDerivations = builtins.map (file: rec {
-            name = withoutYamlExtension file;
-            value = pkgs.stdenv.mkDerivation {
+          isYaml = file: lib.hasSuffix ".yaml" file || lib.hasSuffix ".yml" file;
+          withoutYamlExtension = file: lib.removeSuffix ".yml" (lib.removeSuffix ".yaml" file);
+          dirEntries = lib.attrNames (builtins.readDir "${alacritty-theme}/themes");
+          themeFiles = lib.filter isYaml dirEntries;
+          mkThemePackage = themeFile:
+            let
+              name = withoutYamlExtension themeFile;
+            in
+            lib.nameValuePair name (pkgs.stdenvNoCC.mkDerivation {
               inherit name;
-              phases = [ "installPhase" ];
+              dontUnpack = true;
+              dontConfigure = true;
+              dontBuild = true;
               installPhase = ''
                 runHook preInstall
-                cp ${alacritty-theme}/themes/${file} $out
+                cp --reflink=auto ${alacritty-theme}/themes/${themeFile} $out
                 runHook postInstall
               '';
-            };
-          }) themeFiles;
-        in {
-          packages = builtins.listToAttrs themeDerivations;
+            });
+          themeDerivations = map mkThemePackage themeFiles;
+        in
+        {
+          packages = lib.listToAttrs themeDerivations;
         };
     };
 }
