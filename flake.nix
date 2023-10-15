@@ -19,7 +19,7 @@
         };
         overlays.default = self.overlays.alacritty-theme;
       };
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
+      systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin"];
       perSystem = { lib, pkgs, ... }:
         let
           isYaml = file: lib.hasSuffix ".yaml" file || lib.hasSuffix ".yml" file;
