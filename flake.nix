@@ -19,18 +19,17 @@
         };
         overlays.default = self.overlays.alacritty-theme;
       };
-      systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin"];
+      systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
       perSystem = { lib, pkgs, ... }:
         let
-          isYaml = file: lib.hasSuffix ".yaml" file || lib.hasSuffix ".yml" file;
-          withoutYamlExtension = file: lib.removeSuffix ".yml" (lib.removeSuffix ".yaml" file);
-          dirEntries = lib.attrNames (builtins.readDir "${alacritty-theme}/themes");
-          themeFiles = lib.filter isYaml dirEntries;
+          isTOML = file: lib.hasSuffix ".toml" file;
+          withoutTOMLExtension = file: lib.removeSuffix ".toml";
+          dirEntries =
+            lib.attrNames (builtins.readDir "${alacritty-theme}/themes");
+          themeFiles = lib.filter isTOML dirEntries;
           mkThemePackage = themeFile:
-            let
-              name = withoutYamlExtension themeFile;
-            in
-            lib.nameValuePair name (pkgs.stdenvNoCC.mkDerivation {
+            let name = withoutTOMLExtension themeFile;
+            in lib.nameValuePair name (pkgs.stdenvNoCC.mkDerivation {
               inherit name;
               dontUnpack = true;
               dontConfigure = true;
@@ -42,9 +41,6 @@
               '';
             });
           themeDerivations = map mkThemePackage themeFiles;
-        in
-        {
-          packages = lib.listToAttrs themeDerivations;
-        };
+        in { packages = lib.listToAttrs themeDerivations; };
     };
 }

@@ -5,7 +5,7 @@ as individual flake outputs for easy use in your nix-managed Alacritty config.
 
 ## Outputs
 
-Each YAML file in the [alacritty-theme/themes](https://github.com/alacritty/alacritty-theme/tree/0fb8868d6389014fd551851df7153e4ca2590790/themes) folder is exported as a package.
+Each TOML file in the [alacritty-theme/themes](https://github.com/alacritty/alacritty-theme/tree/0fb8868d6389014fd551851df7153e4ca2590790/themes) folder is exported as a package.
 
 Furthermore an overlay is provided that groups all of these themes under a single attribute set: `pkgs.alacritty-theme`.
 
