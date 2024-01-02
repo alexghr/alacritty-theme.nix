@@ -23,7 +23,7 @@
       perSystem = { lib, pkgs, ... }:
         let
           isTOML = file: lib.hasSuffix ".toml" file;
-          withoutTOMLExtension = file: lib.removeSuffix ".toml";
+          withoutTOMLExtension = file: lib.removeSuffix ".toml" file;
           dirEntries =
             lib.attrNames (builtins.readDir "${alacritty-theme}/themes");
           themeFiles = lib.filter isTOML dirEntries;
