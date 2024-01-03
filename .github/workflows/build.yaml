@@ -18,7 +18,7 @@ jobs:
       ATTIC_CACHE_PUBLIC_KEY: 5MqPjBBGMCWbo8L8voeQl7HXc5oX+MXZ6BSURfMosIo=
       # pin attic and nixpkgs
       ATTIC_FLAKE: github:zhaofengli/attic/b1fb790
-      NIXPKGS_FLAKE: github:NixOS/nixpkgs/0eeebd6
+      NIXPKGS_FLAKE: github:NixOS/nixpkgs/nixpkgs-unstable
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v21
