@@ -3,6 +3,10 @@
 This repo packages all of the themes available at [alacritty/alacritty-theme](https://github.com/alacritty/alacritty-theme)
 as individual flake outputs for easy use in your nix-managed Alacritty config.
 
+> ❗❗❗
+> Since [this PR](https://github.com/alexghr/alacritty-theme.nix/pull/4) the themes are exported as TOML files. They can only be consumed by Alacritty >= 0.13.0 (currently avilable in nixpkgs-unstable but not in nixos-23.11). If you're using Alacritty from a stable NixOS release then pin this commit [2cd654](https://github.com/alexghr/alacritty-theme.nix/commit/2cd654fa494fc8ecb226ca1e7c5f91cf1cebbba9) to consume YAML formatted themes.
+
+
 ## Outputs
 
 Each TOML file in the [alacritty-theme/themes](https://github.com/alacritty/alacritty-theme/tree/0fb8868d6389014fd551851df7153e4ca2590790/themes) folder is exported as a package.
