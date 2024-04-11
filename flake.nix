@@ -19,7 +19,7 @@
         };
         overlays.default = self.overlays.alacritty-theme;
       };
-      systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       perSystem = { lib, pkgs, ... }:
         let
           isTOML = file: lib.hasSuffix ".toml" file;
