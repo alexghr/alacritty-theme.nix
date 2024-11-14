@@ -32,7 +32,7 @@ You can read more about installing overlays with Flakes [on NixOS Wiki](https://
             programs.alacritty = {
               enable = true;
               # use a color scheme from the overlay
-              settings.import = [ pkgs.alacritty-theme.cyber_punk_neon ];
+              settings.general.import = [ pkgs.alacritty-theme.cyber_punk_neon ];
             };
           };
         })
