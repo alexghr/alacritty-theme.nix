@@ -3,11 +3,11 @@
     "alacritty-theme": {
       "flake": false,
       "locked": {
-        "lastModified": 1740080741,
-        "narHash": "sha256-ROer+oqSY/Z5PAxZFJ5U9R+kMfWb596/1CuEWTcoMIk=",
+        "lastModified": 1742489164,
+        "narHash": "sha256-1KSItYOIPjJzltYZyL0nB4UtNWrjSNyihlBQp3VKaBg=",
         "owner": "alacritty",
         "repo": "alacritty-theme",
-        "rev": "687675f3f2245c80ff8bfe8180b0eb40dfc0bc86",
+        "rev": "86c578469e2bf784faf6f916883bf48349ff4f6d",
         "type": "github"
       },
       "original": {
