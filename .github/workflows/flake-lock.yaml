@@ -13,6 +13,6 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v19
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v25
+        uses: DeterminateSystems/update-flake-lock@v27
         with:
           inputs: alacritty-theme
