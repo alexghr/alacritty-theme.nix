@@ -15,7 +15,7 @@
       imports = [ ];
       flake = {
         overlays.alacritty-theme = final: prev: {
-          alacritty-theme = self.packages.${prev.system};
+          alacritty-theme = self.packages.${prev.stdenv.hostPlatform.system};
         };
         overlays.default = self.overlays.alacritty-theme;
       };
